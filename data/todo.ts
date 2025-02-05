@@ -4,4 +4,9 @@ export const DATA = [
         'title': "lunch",
         'complete': 'false'
     },
+    {
+        'id': 2,
+        'title': "dinner",
+        'complete': 'true'
+    },
 ];
