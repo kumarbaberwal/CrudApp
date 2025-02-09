@@ -2,11 +2,15 @@ import { Text, View, TextInput, Pressable, FlatList } from "react-native";
 import { StyleSheet } from "react-native";
 import { useState } from "react";
 import { DATA } from "@/data/todo";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Inter_500Medium, useFonts } from '@expo-google-fonts/inter';
 
 export default function Index() {
   const [todos, setTodos] = useState(DATA.sort((a, b) => b.id - a.id));
   const [text, setText] = useState('');
+  const [loaded, error] = useFonts({
+    Inter_500Medium,
+  })
 
   const addTodo = () => {
     if (text.trim()) {
@@ -29,13 +33,17 @@ export default function Index() {
   }
 
   const renderItem = ({ item }: { item: { id: number, title: string, complete: boolean } }) => (
-    <View style={styles.todoItem}>
-      <Text style={[styles.todoText, item.complete && styles.completedText]} onPress={() => toggleTodo(item.id)}>
-        {item.title}
-      </Text>
-      <Pressable onPress={() => removeTodo(item.id)}>
-        <AntDesign name="delete" size={36} color="red" selectable={undefined} />
-      </Pressable>
+    <View style={{
+      margin: 10,
+    }}>
+      <View style={styles.todoItem}>
+        <Text style={[styles.todoText, item.complete && styles.completedText]} onPress={() => toggleTodo(item.id)}>
+          {item.title}
+        </Text>
+        <Pressable onPress={() => removeTodo(item.id)}>
+          <MaterialIcons name="delete" size={30} color="red" />
+        </Pressable>
+      </View>
     </View>
   );
 
@@ -43,7 +51,7 @@ export default function Index() {
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <TextInput
-          style={styles.input}
+          style={styles.textinput}
           placeholder="Add a new todo"
           placeholderTextColor={'gray'}
           value={text}
@@ -78,27 +86,27 @@ export const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
-    padding: 10,
-    borderRadius: 5,
+    // marginBottom: 10,
+    margin: 10,
     width: '100%',
     marginHorizontal: 'auto',
     pointerEvents: 'auto',
   },
-  input: {
+  textinput: {
     flex: 1,
-    borderColor: 'gray',
+    borderColor: 'white',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 15,
     marginRight: 10,
     fontSize: 18,
-    minWidth: 0,
-    padding: 10,
+    // minWidth: 0,
+    padding: 15,
+    height: 50,
     color: 'white',
   },
   addButton: {
     backgroundColor: "white",
-    borderRadius: 5,
+    borderRadius: 15,
     padding: 10,
   },
   addButtonText: {
@@ -109,10 +117,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 4,
+    // gap: 4,
     padding: 10,
     borderColor: 'gray',
     borderWidth: 1,
+    borderRadius: 15,
     width: '100%',
     marginHorizontal: 'auto',
     pointerEvents: 'auto',
