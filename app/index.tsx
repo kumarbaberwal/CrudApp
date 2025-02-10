@@ -10,7 +10,11 @@ export default function Index() {
   const [text, setText] = useState('');
   const [loaded, error] = useFonts({
     Inter_500Medium,
-  })
+  });
+
+  if (!loaded && !error) {
+    return null;
+  }
 
   const addTodo = () => {
     if (text.trim()) {
