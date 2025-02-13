@@ -9,10 +9,12 @@ import { Inter_500Medium, useFonts } from '@expo-google-fonts/inter';
 import Octicons from "@expo/vector-icons/Octicons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function Index() {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState('');
+  const router = useRouter();
   const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
   const [loaded, error] = useFonts({
     Inter_500Medium,
@@ -75,14 +77,26 @@ export default function Index() {
     setTodos(todos.filter(todo => todo.id !== id));
   }
 
+  const handlePress = (id) => {
+    router.push(`/todos/${id}`);
+  }
+
   const renderItem = ({ item }) => (
     <View style={{
       margin: 10,
     }}>
       <View style={styles.todoItem}>
-        <Text style={[styles.todoText, item.complete && styles.completedText]} onPress={() => toggleTodo(item.id)}>
-          {item.title}
-        </Text>
+        <Pressable
+          onPress={() => {
+            handlePress(item.id)
+          }}
+          onLongPress={() =>
+            toggleTodo(item.id)
+          }>
+          <Text style={[styles.todoText, item.complete && styles.completedText]}>
+            {item.title}
+          </Text>
+        </Pressable>
         <Pressable onPress={() => removeTodo(item.id)}>
           <MaterialIcons name="delete" size={30} color="red" />
         </Pressable>
@@ -100,6 +114,7 @@ export default function Index() {
 
           value={text}
           onChangeText={setText}
+          maxLength={30}
         />
         <Pressable onPress={addTodo} style={styles.addButton}>
           <Text style={styles.addButtonText}>
