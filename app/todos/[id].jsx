@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { Pressable, StatusBar, StyleSheet, Text, TextInput, View } from "react-native";
 
 
-export default editScreen = () => {
+export default function editScreen() {
     const { id } = useLocalSearchParams();
     const [todo, setTodo] = useState({});
     const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
@@ -73,9 +73,8 @@ export default editScreen = () => {
                     onChangeText={(text) => {
                         setTodo(prev => ({ ...prev, title: text }))
                     }}
-                    maxLength={30}>
-
-                </TextInput>
+                    maxLength={30}
+                />
                 <Pressable
                     onPress={() => setColorScheme(
                         colorScheme === 'light' ? 'dark' : 'light'
@@ -183,6 +182,9 @@ function createStyles(theme, colorScheme) {
             width: 'auto',
             justifyContent: 'center',
             alignItems: 'center',
+            borderRadius: 10,
+            // borderWidth: 1,
+            // borderColor: colorScheme === 'dark' ? 'white' : 'black',
         },
         saveButtonText: {
             fontSize: 18,
